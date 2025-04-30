@@ -1,0 +1,46 @@
+Name:           dracut-sshd
+Version:        0.7.0
+Release:        %autorelease
+Summary:        OpenSSH initramfs dracut integration
+
+License:        GPL-3.0-or-later
+URL:            https://github.com/gsauthof/%{name}
+Source:         %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+
+BuildArch:      noarch
+
+Requires:       dracut
+
+
+%description
+dracut-sshd provides SSH access to initramfs early user space.
+
+It allows for remote unlocking of a fully encrypted root filesystem and remote
+access to the Dracut emergency shell (i.e. early userspace).
+
+
+%prep
+%autosetup -p1
+
+
+%build
+# nothing to do
+
+
+%install
+install -p -d %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd
+install -p -t %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd 46sshd/*
+
+
+%files
+%dir %{_prefix}/lib/dracut/modules.d/46sshd
+%{_prefix}/lib/dracut/modules.d/46sshd/module-setup.sh
+%{_prefix}/lib/dracut/modules.d/46sshd/motd
+%{_prefix}/lib/dracut/modules.d/46sshd/profile
+%{_prefix}/lib/dracut/modules.d/46sshd/sshd.service
+%config(noreplace) %{_prefix}/lib/dracut/modules.d/46sshd/sshd_config
+%doc README.md example/
+
+
+%changelog
+%autochangelog
