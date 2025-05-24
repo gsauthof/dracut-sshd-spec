@@ -6,10 +6,12 @@ Summary:        OpenSSH initramfs dracut integration
 License:        GPL-3.0-or-later
 URL:            https://github.com/gsauthof/%{name}
 Source:         %{url}/archive/%{version}/%{name}-%{version}.tar.gz
+Patch0:         sshd-config-etc.diff
 
 BuildArch:      noarch
 
 Requires:       dracut
+Requires:       openssh-server
 
 
 %description
@@ -28,17 +30,13 @@ access to the Dracut emergency shell (i.e. early userspace).
 
 
 %install
-install -p -d %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd
-install -p -t %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd 46sshd/*
+install -p -d       %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd
+install -p -m644 -t %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd 46sshd/{motd,profile,sshd_config,sshd.service}
+install -p -t       %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd 46sshd/module-setup.sh
 
 
 %files
-%dir %{_prefix}/lib/dracut/modules.d/46sshd
-%{_prefix}/lib/dracut/modules.d/46sshd/module-setup.sh
-%{_prefix}/lib/dracut/modules.d/46sshd/motd
-%{_prefix}/lib/dracut/modules.d/46sshd/profile
-%{_prefix}/lib/dracut/modules.d/46sshd/sshd.service
-%config(noreplace) %{_prefix}/lib/dracut/modules.d/46sshd/sshd_config
+%{_prefix}/lib/dracut/modules.d/46sshd/
 %doc README.md example/
 
 
