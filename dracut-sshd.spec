@@ -34,10 +34,16 @@ install -p -d       %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd
 install -p -m644 -t %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd 46sshd/{motd,profile,sshd_config,sshd.service}
 install -p -t       %{buildroot}%{_prefix}/lib/dracut/modules.d/46sshd 46sshd/module-setup.sh
 
+mkdir -p %{buildroot}%{_sysconfdir}/dracut-sshd
+touch    %{buildroot}%{_sysconfdir}/dracut-sshd/sshd_config
+
 
 %files
 %{_prefix}/lib/dracut/modules.d/46sshd/
 %doc README.md example/
+
+%dir                      %{_sysconfdir}/dracut-sshd
+%ghost %config(noreplace) %{_sysconfdir}/dracut-sshd/sshd_config
 
 
 %changelog
